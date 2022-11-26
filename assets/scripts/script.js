@@ -21,7 +21,7 @@ function setHeaderDate(){
 setHeaderDate();
 
 
-// CREATING THE SCHEUDLE:
+// CREATING THE SCHEDULE:
 
 // create the hour block divs, html and css
 function createHourBlocks() {
@@ -49,13 +49,16 @@ function createWorkDay() {
 }
 createWorkDay();
 
-// set the time for each hour block dynamically
+// set the time for each hour block dynamically. First, we will set the description be based on the 12 hour clock.
+// then, we will set a data-attribute that gives the time in military time. We will use this data attribute to set our styling for past, present, and future.
 function setHourBlockTime() {
   var thisHour;
   var morningStart = 8;
   var afternoonStart = 0;
+  var militaryDayStart = 8;
 
-  for (i=0; i <= workHours; i++) {
+  for (let i=0; i <= workHours; i++) {
+
     var hourBlock = $("#schedule").children()[i];
 
     if (morningStart <= 11) {
@@ -67,30 +70,51 @@ function setHourBlockTime() {
       thisHour = afternoonStart
       $(hourBlock).find('div').text(thisHour + " PM");
     };
-  }; 
+
+    militaryDayStart++
+
+    $(hourBlock).attr('data-work-hour', militaryDayStart);
+  };
 }
 setHourBlockTime();
 
-// set the past, present, and future block styles
-// function setPastPresentFuture(){
-//   var nonWorkingHours = [18,19,20,21,22,23,1,2,3,4,5,6,7,8]
-//   var workingHours = [9,10,11,12,1,2,3,4,5]
 
-//   if (!nonWorkingHours.includes(currentMilitaryTime) && workingHours.includes(currentTime)) {
-//     var currentWorkingHour;
+console.log(parseInt(currentTime));
 
-//     for (i=0; i <= workHours; i++) {
-//       var hourBlock = $("#schedule").children()[i];
-//       time = workingHours[i];
-//       if (currentWorkingHour <= currentTime){
+console.log($("#schedule").children()[1].dataset.workHour);
 
-//       }
+// set the past, present, and future block styles, using the military time data attribute
+// that we set in setHourBlockTimeData
+function setPastPresentFuture(){
+  var nonWorkingHours = [18,19,20,21,22,23,0,1,2,3,4,5,6,7];
+  // var workingHours = [9,10,11,12,1,2,3,4,5];
 
-//     }
-//   }
-// }
+  if (!nonWorkingHours.includes(parseInt(currentMilitaryTime))) {
 
-// setPastPresentFuture();
+    for (i=0; i <= workHours; i++) {
+      var hourBlock = $("#schedule").children()[i];
+      var hourBlockTimeData = $(hourBlock).attr("data-work-hour");
+
+      if (parseInt(hourBlockTimeData) < parseInt(currentMilitaryTime)) {
+        $(hourBlock).removeClass('present')
+        $(hourBlock).removeClass('future')
+        $(hourBlock).addClass('past')
+      } else if (parseInt(hourBlockTimeData) === parseInt(currentMilitaryTime)){
+        $(hourBlock).removeClass('past')
+        $(hourBlock).removeClass('future')
+        $(hourBlock).addClass('present');
+      } else if(parseInt(hourBlockTimeData) > parseInt(currentMilitaryTime)){
+        $(hourBlock).removeClass('past')
+        $(hourBlock).removeClass('present')
+        $(hourBlock).addClass('future');
+      } else if (parseInt(currentMilitaryTime) >= 18) {
+        $(hourBlock).removeClass('past');
+      }
+      }
+  }
+  }
+
+setPastPresentFuture();
 
 
 
@@ -119,23 +143,23 @@ $(function () {
 
 // set the time until the next day in the footer
 
-function setTimeUntilTomorrow() {
-  const relativeTime = window.dayjs_plugin_relativeTime;
-  dayjs.extend(relativeTime)
+// function setTimeUntilTomorrow() {
+//   const relativeTime = window.dayjs_plugin_relativeTime;
+//   dayjs.extend(relativeTime)
 
   
 
 
-  var footer = $('#footer')
-  var footerTimer = $("<p></p>");
+//   var footer = $('#footer')
+//   var footerTimer = $("<p></p>");
 
-  var startOfTomorrow = dayjs().startOf('d');
+//   var startOfTomorrow = dayjs().startOf('d');
 
-  startOfTomorrow = dayjs(startOfTomorrow).format('h mm');
-  console.log(startOfTomorrow);
+//   startOfTomorrow = dayjs(startOfTomorrow).format('h mm');
+//   console.log(startOfTomorrow);
 
-  $(footerTimer).text(startOfTomorrow.diff(currentMilitaryTime));
-  footer.append(footerTimer);
-}
+//   $(footerTimer).text(startOfTomorrow.diff(currentMilitaryTime));
+//   footer.append(footerTimer);
+// }
 
-setTimeUntilTomorrow()
+// setTimeUntilTomorrow()
