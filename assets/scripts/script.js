@@ -119,7 +119,23 @@ setPastPresentFuture();
 
 
 
-$(function () {
+
+var saveButton = $('button')
+$(saveButton).click(function (event) {
+  event.preventDefault();
+  var element = event.target;
+  var textArea = $(element).parent().find('textarea');
+
+  // see if there is an array in local storage, if not create one that contains an array containing empty objects
+
+  // if there is, dont create and just push data based on the index of the hour block child element related to the schedule.
+  // so, if the clicked button was inside child 0 of the schedule, then push the value of the text area to index 0 of the array in local storage
+
+  console.log($(element).parent());
+
+  // localStorage.setItem("task", textarea);
+})
+
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
@@ -138,7 +154,7 @@ $(function () {
   // attribute of each time-block be used to do this?
   //
   // TODO: Add code to display the current date in the header of the page.
-});
+
 
 
 // set the time until the next day in the footer
