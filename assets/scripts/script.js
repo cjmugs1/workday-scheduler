@@ -16,7 +16,6 @@ function setHeaderDate(){
   var headerDateEl = $("#current-day");
   var headerCurrentDate = dayjs().format('dddd, MMM D[th]');
   headerDateEl.text(headerCurrentDate);
-
 }
 setHeaderDate();
 
@@ -57,7 +56,7 @@ function setHourBlockTime() {
   var afternoonStart = 0;
   var militaryDayStart = 8;
 
-  for (let i=0; i <= workHours; i++) {
+  for (i=0; i <= workHours; i++) {
 
     var hourBlock = $("#schedule").children()[i];
 
@@ -86,10 +85,9 @@ console.log($("#schedule").children()[1].dataset.workHour);
 // set the past, present, and future block styles, using the military time data attribute
 // that we set in setHourBlockTimeData
 function setPastPresentFuture(){
-  var nonWorkingHours = [18,19,20,21,22,23,0,1,2,3,4,5,6,7];
-  // var workingHours = [9,10,11,12,1,2,3,4,5];
+  var workingHours = [8,9,10,11,12,13,14,15,16,17];
 
-  if (!nonWorkingHours.includes(parseInt(currentMilitaryTime))) {
+  if (workingHours.includes(parseInt(currentMilitaryTime))) {
 
     for (i=0; i <= workHours; i++) {
       var hourBlock = $("#schedule").children()[i];
@@ -118,44 +116,144 @@ setPastPresentFuture();
 
 
 
-
-
 var saveButton = $('button')
+
+var storedTasks = [
+  {
+    hourBlock: 9,
+    task:""
+  },
+  {
+    hourBlock: 10,
+    task:""
+  },
+  {
+    hourBlock: 11,
+    task:""
+  },
+  {
+    hourBlock: 12,
+    task:""
+  },
+  {
+    hourBlock: 1,
+    task:""
+  },
+  {
+    hourBlock: 2,
+    task:""
+  },
+  {
+    hourBlock: 3,
+    task:""
+  },
+  {
+    hourBlock: 4,
+    task:""
+  },
+  {
+    hourBlock: 5,
+    task:""
+  },
+]
+
 $(saveButton).click(function (event) {
   event.preventDefault();
+
   var element = event.target;
+
   var textArea = $(element).parent().find('textarea');
-
-  // see if there is an array in local storage, if not create one that contains an array containing empty objects
-
-  // if there is, dont create and just push data based on the index of the hour block child element related to the schedule.
+  var textAreaInput = $(textArea).val();
+  var textAreaIndex = $(element).parent().index();
+ 
+   // see if there is an array in local storage. If not, then make one using the empty storedTasks array
+  if (localStorage.getItem("storedTasks") === null) {
+    storedTasks[textAreaIndex].task = $.trim(textAreaInput);
+    localStorage.setItem("storedTasks", JSON.stringify(storedTasks));
+  // if there is a stored array, dont create one and just push data based on the index of the hour block child element related to the schedule.
   // so, if the clicked button was inside child 0 of the schedule, then push the value of the text area to index 0 of the array in local storage
+  } else{
+    storedTasks = JSON.parse(localStorage.getItem("storedTasks"));
+    storedTasks[textAreaIndex].task = $.trim(textAreaInput);
+    $(textArea).val(storedTasks[textAreaIndex].task);
+    localStorage.setItem("storedTasks", JSON.stringify(storedTasks));
+  };
+});
 
-  console.log($(element).parent());
+function getStoredTasks() {
+  if (localStorage.getItem("storedTasks") !== null) {
+  for (i=0; i <= workHours; i++) {
+    var hourBlockTextarea = $("#schedule").children()[i];
+    storedTasks = JSON.parse(localStorage.getItem("storedTasks"));
 
-  // localStorage.setItem("task", textarea);
-})
+    $(hourBlockTextarea).find('textarea').val(storedTasks[i].task);
+  };
+};
+};
+getStoredTasks()
 
-  // TODO: Add a listener for click events on the save button. This code should
-  // use the id in the containing time-block as a key to save the user input in
-  // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour-x" id of the
-  // time-block containing the button that was clicked? How might the id be
-  // useful when saving the description in local storage?
-  //
-  // TODO: Add code to apply the past, present, or future class to each time
-  // block by comparing the id to the current hour. HINTS: How can the id
-  // attribute of each time-block be used to conditionally add or remove the
-  // past, present, and future classes? How can Day.js be used to get the
-  // current hour in 24-hour time?
-  //
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-  //
-  // TODO: Add code to display the current date in the header of the page.
+function clearStoredTasks() {
+  if (localStorage.getItem("storedTasks") !== null) {
+    storedTasks = [
+      {
+        hourBlock: 9,
+        task: "",
+      },
+      {
+        hourBlock: 10,
+        task: "",
+      },
+      {
+        hourBlock: 11,
+        task: "",
+      },
+      {
+        hourBlock: 12,
+        task: "",
+      },
+      {
+        hourBlock: 1,
+        task: "",
+      },
+      {
+        hourBlock: 2,
+        task: "",
+      },
+      {
+        hourBlock: 3,
+        task: "",
+      },
+      {
+        hourBlock: 4,
+        task: "",
+      },
+      {
+        hourBlock: 5,
+        task: "",
+      },
+    ];
+    localStorage.setItem("storedTasks", JSON.stringify(storedTasks));
+  };
+  window.alert("You have not saved any tasks!");
+};
 
+function startNewWorkDay() {
+  if (parseInt(currentMilitaryTime) === 1) {
+    clearStoredTasks();
+    location.reload();
+  };
+};
+startNewWorkDay();
 
+$('#clear-stored-tasks').click(function (event){
+  event.preventDefault();
+  var confirmClear = window.confirm("This will clear all of the tasks for today. To clear tasks for one hour, simply erase the task and save. Are you sure you want to continue?")
+  if (confirmClear){
+    clearStoredTasks();
+    location.reload();
+  }
+  return;
+});
 
 // set the time until the next day in the footer
 
