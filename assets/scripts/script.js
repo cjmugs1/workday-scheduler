@@ -25,7 +25,7 @@ function createHourBlocks() {
   hourBlock.append(hour)
 
   // the task writing area
-  var scheduleItem = $("<textarea class='col-8 col-md-10 description' rows='3'></textarea>");
+  var scheduleItem = $("<textarea class='col-8 col-md-10 description' rows='3' placeholder='...'></textarea>");
   hourBlock.append(scheduleItem)
 
   // the save button and icon
@@ -259,8 +259,9 @@ function clearStoredTasks() {
       },
     ];
     localStorage.setItem("storedTasks", JSON.stringify(storedTasks));
-  };
+  } else {
   window.alert("You have not saved any tasks!");
+  };
 };
 
 // On click of the clear tasks button, confirm with user then clear the tasks.
@@ -282,7 +283,6 @@ function startNewWorkDay() {
   };
 };
 startNewWorkDay();
-
 
 
 

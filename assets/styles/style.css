@@ -1,14 +1,53 @@
+:root{
+  --color-1: #111111;
+  --color-2: #c7493a;
+  --color-3: #8bcc9e;
+  --color-4: #e0d7d2;
+  --color-5: #8bcc9e75;
+  --color-6: #c7483a65;
+
+}
+
 body {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Quattrocento Sans', sans-serif;
   font-size: 16px;
+  background-color: var(--color-4);
+}
+
+.header{
+  font-family: 'Quattrocento Sans', sans-serif;
+  color: var(--color-1);
+}
+
+.header h1{
+  margin-bottom: 20px;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 500;
+  color: var(--color-1);
+  letter-spacing: 3px;
+}
+
+.header .current-day{
+  letter-spacing: 2px;
+  font-weight: 600;
+}
+
+#clear-stored-tasks{
+  margin-top: 5px;
+  padding: 5px 10px;
+  border: 0px;
+  border-radius: 5px;
+  background-color: var(--color-2);
+  font-weight: 600;
+  letter-spacing: 2px;
 }
 
 textarea {
   background: transparent;
   border: none;
   resize: none;
-  color: #000000;
-  border-left: 1px solid black;
+  color: var(--color-1);
+  border-left: 1px solid var(--color-1);
   padding: 10px;
 }
 
@@ -17,45 +56,40 @@ textarea {
 }
 
 .time-block {
-  border-radius: 15px;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .row {
-  border-top: 2px solid white;
+  margin-bottom: 5px;
+  border-bottom: 2px solid var(--color-1);
 }
 
 .hour {
-  background-color: #ffffff;
-  color: #000000;
-  border-top: 1px dashed #000000;
+  background-color: var(--color-4);
+  color: var(--color-1);
 }
 
 .inactive-block {
-  background-color: #2e2e2e;
-  color: #2e2e2e;
+  background-color: var(--color-4);
 }
 
 .past {
-  background-color: #d3d3d3;
-  color: white;
+  background-color: var(--color-5);
 }
 
 .present {
-  background-color: #ff6961;
-  color: white;
+  background-color: var(--color-4);
 }
 
 .future {
-  background-color: #77dd77;
-  color: white;
+  background-color: var(--color-6);
 }
 
 .saveBtn {
-  border-left: 1px solid black;
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
-  background-color: #06aed5;
-  color: white;
+  border-left: 1px solid var(--color-1);
+  background-color: var(--color-4);
+  color: var(--color-6);
 }
 
 .saveBtn i:hover {
@@ -67,8 +101,9 @@ textarea {
   padding: 30px 0px;
   width: 100%;
   text-align: center;
+  color: var(--color-1);
 }
 
 #footer a{
-  color: #000000;
+  color: var(--color-2);
 }
