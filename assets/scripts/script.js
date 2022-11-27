@@ -174,6 +174,11 @@ $(saveButton).click(function (event) {
 
   var element = event.target;
 
+  // if the user clicks the save icon, then set the element to the save button
+  if (element.matches('i')) {
+    element = $(element).parent();
+  }
+
   // Find the associated text area of the hour block, based on the save button the user clicked.
   var textArea = $(element).parent().find('textarea');
   // Set textAreaInput to the value of the text area

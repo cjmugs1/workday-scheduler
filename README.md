@@ -27,3 +27,4 @@ THEN the saved events persist
 ![](./assets/images/deployed-site.JPG);
 
 ## Deployed Application
+https://cjmugs1.github.io/workday-scheduler/
