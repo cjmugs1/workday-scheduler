@@ -24,6 +24,6 @@ WHEN I refresh the page
 THEN the saved events persist  
 
 ## Website Screenshot
-
+![](./assets/images/deployed-site.JPG);
 
 ## Deployed Application
